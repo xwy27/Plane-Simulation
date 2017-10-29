@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Runway.hpp"
-#include "Random.hpp"
-#include "Plane.hpp"
+#include "../hpp/Runway.hpp"
+#include "../hpp/Random.hpp"
+#include "../hpp/Plane.hpp"
 #include <iomanip>
 using namespace std;
 

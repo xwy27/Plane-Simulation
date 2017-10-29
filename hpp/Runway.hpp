@@ -13,23 +13,24 @@ private:
     Extended_queue landing;
     Extended_queue takeoff;
     int queue_litmit;
-    int num_land_requests;      //  number of planes asking to land
-    int num_takeoff_requests;   //  number of planes asking to take off
-    int num_landings;           //  number of planestahthave landed
-    int num_takeoffs;           //  number of planes that have taken off
-    int num_land_accepted;      //  number of planes queued to land
-    int num_takeoff_accepted;   //  number of planes queued to take off
-    int num_land_refused;       //  number of landing planes refused
-    int num_takeoff_refused;    //  number of departing planes refused
-    int land_wait;              //  total time of planes waiting to land
-    int takeoff_wait;           //  total time of planes waiting to take off
-    int idle_time;              //  total time runway is idle
+    static int num_land_requests;      //  number of planes asking to land
+    static int num_takeoff_requests;   //  number of planes asking to take off
+    static int num_landings;           //  number of planestahthave landed
+    static int num_takeoffs;           //  number of planes that have taken off
+    static int num_land_accepted;      //  number of planes queued to land
+    static int num_takeoff_accepted;   //  number of planes queued to take off
+    static int num_land_refused;       //  number of landing planes refused
+    static int num_takeoff_refused;    //  number of departing planes refused
+    static int land_wait;              //  total time of planes waiting to land
+    static int takeoff_wait;           //  total time of planes waiting to take off
+    static int idle_time;              //  total time runway is idle
 public:
     Runway(int limit);
     Error_code can_land(const Plane &current);
     Error_code can_depart(const Plane &current);
     Runway_activity activity(int time, Plane &moving);
     void shut_down(int time) const;
+    void reset();
 };
 
 Runway::Runway(int limit) {
@@ -143,6 +144,14 @@ void Runway::shut_down(int time) const {
     cout << "Average observed rate of planes waiting to take off  "
          << ((float)num_takeoff_requests)/((float)time) << " per time unit" << endl;
 
+}
+
+Runway::reset() {
+    num_land_requests = num_takeoff_requests = 0;
+    num_landings = num_takeoffs = 0;
+    num_land_refused = num_takeoff_refused = 0;
+    num_land_accepted = num_takeoff_accepted = 0;
+    land_wait = takeoff_wait = idle_time = 0;
 }
 
 #endif
