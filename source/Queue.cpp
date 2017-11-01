@@ -1,17 +1,7 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#include "Queue.h"
 
-#include <queue>
-#include "Plane.hpp"
-#include "Random.hpp"
 
-typedef Plane Queue_entry;
-class Extended_queue : public std::queue<Queue_entry> {
-public:
-    Error_code append(const Queue_entry &x);
-    Error_code serve();
-    Error_code retrieve(Queue_entry &item) const;
-};
+
 
 Error_code Extended_queue::append(const Queue_entry &x) {
     push(x);
@@ -31,9 +21,12 @@ Error_code Extended_queue::retrieve(Queue_entry &item) const {
     if (size() <= 0) {
         return underflow;
     } else {
-        item = front();
+        item = top();
     }
     return success;
 }
-
-#endif
+void Extended_queue::clear(){
+    while (empty()) {
+        pop();
+    }
+}

@@ -1,30 +1,11 @@
-#ifndef PLANE_H
-#define PLANE_H
-
-#include <iostream>
-using namespace std;
-
-enum Plane_status {null, arriving, departing};
-class Plane {
-private:
-    int flt_num;
-    int clock_start;
-    Plane_status state;
-public:
-    Plane();
-    Plane(int flt, int time, Plane_status status);
-    void refuse() const;
-    void land(int time) const;
-    void fly(int time) const;
-    int started() const;
-};
-
-Plane::Plane(int flt, int time, Plane_status status) {
+#include "Plane.h"
+Plane::Plane(int flt, int time, Plane_status status, int fuel) {
     /*Post: The plane data members flt_num, clock_start, and state are set to the 
             values of the parameters flt, time and status, respectively.*/
     flt_num = flt;
     clock_start = time;
     state = status;
+    clock_deadline = clock_start + fuel;
     cout << "Plane number " << flt << " ready to ";
     if (status == arriving) {
         cout << "land." << endl;
@@ -56,7 +37,7 @@ void Plane::land(int time) const {
     int wait = time - clock_start;
     cout << time << ": Plane number " << flt_num << " landed after "
          << wait << " time unit" << ((wait == 1) ? "" : "s")
-         << " in the takoff queue." << endl;
+         << " in the landing queue." << endl;
 }
 
 void Plane::fly(int time) const {
@@ -64,12 +45,10 @@ void Plane::fly(int time) const {
     int wait = time - clock_start;
     cout << time << ": Plane number " << flt_num << " took off after "
          << wait << " time unit" << ((wait == 1) ? "" : "s")
-         << " in the takoff queue." << endl;
+         << " in the take-off queue." << endl;
 }
 
 int Plane::started() const {
     /*Post: Return the time that the Plane entered the airport system.*/
     return clock_start;
 }
-
-#endif
